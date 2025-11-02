@@ -11,12 +11,13 @@ const Navbar = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log("navbar user", currentUser);
     });
 
     return () => unsubscribe();
   }, [auth]);
 
-  // --- Logout Handler ---
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -28,18 +29,18 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-900 text-white px-6 py-4 shadow-md flex justify-between items-center">
+    <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-blue-900 shadow-md text-white px-6 py-4 flex justify-between items-center">
       <div className="text-2xl font-bold">JobFusion</div>
-      <div className="space-x-6 text-lg">
+      <div className="space-x-6 text-lg flex items-center">
+        <Link to="/" className="hover:text-blue-300 transition">Home</Link>
+        <Link to="/about" className="hover:text-blue-300 transition">About</Link>
         {user ? (
           <>
-            <Link to="/" className="hover:text-blue-300 transition">Home</Link>
-            <Link to="/about" className="hover:text-blue-300 transition">About</Link>
-            {/* We can even add the user's email and a logout button */}
-            <span className="text-gray-300">({user.email})</span>
+            {/* <span className="text-gray-300">({user.email})</span> */}
             <button 
               onClick={handleLogout} 
-              className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded transition"
+              // className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded transition"
+              className="hover:text-blue-300 transition"
             >
               Logout
             </button>

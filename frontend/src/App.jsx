@@ -7,6 +7,8 @@ import AuthForm from './components/AuthForm';
 import Home from './components/Home';
 import About from './components/About';
 import { auth } from './firebase';
+import AnalysisPage from './components/JobSeeker/AnalysisPage';
+import RecruiterPage from './components/Recruiter/RecruiterPage';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -36,8 +38,10 @@ const App = () => {
 
         {/* Protected Routes */}
         <Route path="/select-role" element={user ? <RoleSelection /> : <Navigate to="/auth" />} />
-        <Route path="/jobseeker" element={user ? <UploadForm /> : <Navigate to="/auth" />} />
-        <Route path="/recruiter" element={user ? <RecruiterForm /> : <Navigate to="/auth" />} />
+        {/* <Route path="/jobseeker" element={user ? <UploadForm /> : <Navigate to="/auth" />} /> */}
+        <Route path="/jobseeker" element={user ? <AnalysisPage /> : <Navigate to="/auth" />} />
+        {/* <Route path="/recruiter" element={user ? <RecruiterForm /> : <Navigate to="/auth" />} /> */}
+        <Route path="/recruiter" element={user ? <RecruiterPage /> : <Navigate to="/auth" />} />
       </Routes>
   );
 };
