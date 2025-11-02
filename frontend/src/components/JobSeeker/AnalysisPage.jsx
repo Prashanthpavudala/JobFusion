@@ -148,30 +148,35 @@ const AnalysisPage = () => {
             </div>
 
             {/* --- RIGHT CARD: Editable Cover Letter --- */}
-            <div className="bg-gray-50 p-6 rounded-xl shadow-lg border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Editable Cover Letter</h3>
-              
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl shadow-xl border border-blue-200">
+              <h3 className="text-2xl font-semibold text-blue-900 mb-4 flex items-center gap-2">
+                 Editable Cover Letter
+              </h3>
+
               <textarea
                 value={coverLetter}
                 onChange={(e) => setCoverLetter(e.target.value)}
-                className="w-full h-96 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Type or edit your cover letter here..."
+                className="w-full h-96 p-4 text-gray-900 placeholder-blue-400 bg-white border-2 border-blue-300 rounded-xl shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-400 focus:border-blue-500 transition-all duration-300"
               />
-              
-              <div className="flex gap-4 mt-4">
+
+              <div className="flex gap-4 mt-5">
                 <button
                   onClick={handleCopy}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium"
+                  className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-5 py-2.5 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
                 >
-                  Copy to Clipboard
+                   Copy to Clipboard
                 </button>
+
                 <button
                   onClick={handleDownload}
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium"
+                  className="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-5 py-2.5 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
                 >
-                  Download as .txt
+                   Download as .txt
                 </button>
               </div>
             </div>
+
 
           </div>
         )}
