@@ -1,8 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Home = ({user}) => {
-  console.log("homepage user:", user);
+const Home = ({user, role}) => {
+  
+  const getStartedLink = () => {
+    if (!user) {
+      // Not logged in, go to login
+      return "/auth"; 
+    }
+    
+    // Logged in, check role
+    if (role === 'jobSeeker') {
+      return "/jobseeker";
+    } else if (role === 'recruiter') {
+      return "/recruiter";
+    } else {
+      // Fallback if role is null
+      return "/auth"; 
+    }
+  };
+
   return (
     <>
   
@@ -17,7 +34,7 @@ const Home = ({user}) => {
           </p>
           
           <Link
-            to={user ? "/select-role" : "/auth"}
+            to={getStartedLink()}
             className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
           >
             Get Started

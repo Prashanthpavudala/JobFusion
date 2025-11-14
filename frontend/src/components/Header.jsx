@@ -10,6 +10,7 @@ const Header = ({user}) => {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
+        localStorage.removeItem('userRole');
         navigate('/auth');
       })
       .catch((error) => {

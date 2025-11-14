@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { auth } from '../firebase';
 
 const RoleSelection = () => {
   const navigate = useNavigate();
@@ -9,11 +8,6 @@ const RoleSelection = () => {
     if (role === 'jobseeker') navigate('/jobseeker');
     else if (role === 'recruiter') navigate('/recruiter');
   };
-
-  // const handleLogout = async () => {
-  //   await auth.signOut();
-  //   navigate('/auth');
-  // };
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-black text-white">
@@ -43,12 +37,6 @@ const RoleSelection = () => {
         </div>
       </div>
 
-      {/* <button
-        onClick={handleLogout}
-        className="mt-12 px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white text-sm font-medium shadow-lg transition duration-300 z-10"
-      >
-        🔓 Logout
-      </button> */}
     </div>
   );
 };

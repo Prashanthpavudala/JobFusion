@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore'; // Import Firestore functions
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 const AuthFormNew = () => {
@@ -25,29 +25,47 @@ const AuthFormNew = () => {
     e.preventDefault();
     setError(null);
 
-    // --- LOGIN LOGIC (Unchanged) ---
     if (isLogin) {
       try {
-        await signInWithEmailAndPassword(auth, email, password);
-        navigate('/select-role'); // or '/dashboard'
+        //Sign in
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        //Fetch user document
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          const userRole = userDoc.data().role;
+          localStorage.setItem('userRole', userRole);
+          //Navigation as per role
+          if (userRole === 'jobSeeker') {
+            navigate('/jobseeker');
+          } else if (userRole === 'recruiter') {
+            navigate('/recruiter');
+          } else {
+            navigate('/select-role'); 
+          }
+        } else {
+          navigate('/select-role');
+        }
+        
       } catch (firebaseError) {
-        setError(firebaseError.message); // Handle login errors
+        setError(firebaseError.message);
       }
-      return; // Stop execution
+      return;
     }
 
-    // --- SIGNUP LOGIC (New) ---
+    //SIGNUP
     if (password !== retypePassword) {
       setError("Passwords do not match.");
       return;
     }
     
     try {
-      // Step 1: Create user in Firebase Auth
+      //Creating user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Step 2: Save extra data to Firestore
+      //Saving extra data to Firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         email: email,
@@ -57,9 +75,13 @@ const AuthFormNew = () => {
         details: details,
         createdAt: new Date()
       });
-
-      // Step 3: Navigate
-      navigate('/select-role'); // Navigate after successful signup and data save
+      localStorage.setItem('userRole', role);
+      // Navigation as per role
+      if (role === 'jobSeeker') {
+        navigate('/jobseeker');
+      } else {
+        navigate('/recruiter');
+      }
     
     } catch (firebaseError) {
       console.error("Firebase Auth Error:", firebaseError);
@@ -77,6 +99,16 @@ const AuthFormNew = () => {
       setError(errorMessage);
     }
   };
+
+  useEffect(() => {
+    let userRole = localStorage.getItem('userRole');
+    console.log("authform user role : ", userRole);
+    if (userRole === 'jobSeeker') {
+        navigate('/jobseeker');
+    } else if (userRole === 'recruiter'){
+      navigate('/recruiter');
+    }
+  }, []);
   
   const inputStyles = "w-full px-4 py-3 rounded bg-blue-800 text-white border border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-blue-300";
   const labelStyles = "block text-sm font-medium text-blue-200 mb-1";
